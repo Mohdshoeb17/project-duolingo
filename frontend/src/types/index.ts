@@ -24,6 +24,7 @@ export interface LessonSummary {
   title: string;
   order_index: number;
   total_xp: number;
+  xp_reward?: number;
   completed: boolean;
   locked: boolean;
 }
@@ -32,6 +33,7 @@ export interface SkillSummary {
   id: number;
   unit_id: number;
   name: string;
+  title?: string;
   description?: string;
   order_index: number;
   icon?: string;
@@ -42,6 +44,7 @@ export interface UnitSummary {
   id: number;
   course_id: number;
   unit_number: number;
+  order_index?: number;
   title: string;
   description?: string;
   color?: string;
@@ -51,6 +54,8 @@ export interface UnitSummary {
 export interface CoursePath {
   course_id: number;
   course_title: string;
+  target_language?: string;
+  flag?: string;
   units: UnitSummary[];
 }
 

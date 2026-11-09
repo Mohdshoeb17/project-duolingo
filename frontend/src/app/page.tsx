@@ -6,28 +6,42 @@ import { CoursePath, UserStats, LeaderboardUser } from '@/types';
 import { TopStatsBar, ALL_DEFAULT_COURSES } from '@/components/layout/TopStatsBar';
 import { LearningPath } from '@/components/learning-path/LearningPath';
 import { GamificationWidgets } from '@/components/gamification/GamificationWidgets';
+import { getFallbackCoursePath } from '@/lib/courseData';
 
 export default function HomePage() {
   const [courses, setCourses] = useState<any[]>(ALL_DEFAULT_COURSES);
   const [selectedCourseId, setSelectedCourseId] = useState(1);
-  const [coursePath, setCoursePath] = useState<CoursePath | null>(null);
+  const [coursePath, setCoursePath] = useState<CoursePath | null>(() => getFallbackCoursePath(1));
   const [stats, setStats] = useState<UserStats | null>(null);
   const [leaderboard, setLeaderboard] = useState<LeaderboardUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const loadData = async (courseId: number) => {
     try {
-      const [pathData, statsData, lbData, courseList] = await Promise.all([
-        api.getCoursePath(courseId),
-        api.getUserStats(),
-        api.getLeaderboard(),
+      // First immediately switch to local curriculum for instant zero-lag response
+      const fallbackPath = getFallbackCoursePath(courseId);
+      setCoursePath(fallbackPath);
+
+      // Attempt to fetch fresh data from API
+      let pathData: CoursePath | null = null;
+      try {
+        pathData = await api.getCoursePath(courseId);
+        if (pathData && pathData.units && pathData.units.length > 0) {
+          setCoursePath(pathData);
+        }
+      } catch (pathErr) {
+        console.warn(`API path fetch failed for course ${courseId}, keeping built-in curriculum`, pathErr);
+      }
+
+      const [statsData, lbData, courseList] = await Promise.all([
+        api.getUserStats().catch(() => null),
+        api.getLeaderboard().catch(() => []),
         api.getCourses().catch(() => ALL_DEFAULT_COURSES),
       ]);
-      setCoursePath(pathData);
-      setStats(statsData);
-      setLeaderboard(lbData);
+
+      if (statsData) setStats(statsData);
+      if (lbData && lbData.length > 0) setLeaderboard(lbData);
       if (courseList && courseList.length > 0) {
-        // Merge with ALL_DEFAULT_COURSES to guarantee all 10 languages
         const merged = [...courseList];
         for (const def of ALL_DEFAULT_COURSES) {
           if (!merged.some((c: any) => c.id === def.id || c.target_language.toLowerCase() === def.target_language.toLowerCase())) {
@@ -38,8 +52,7 @@ export default function HomePage() {
       }
     } catch (err) {
       console.error('Failed to load home page data:', err);
-    } finally {
-      setLoading(false);
+      setCoursePath(getFallbackCoursePath(courseId));
     }
   };
 

@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
+import { Volume2 } from 'lucide-react';
 import { Exercise } from '@/types';
+import { playAudio } from '@/lib/audio';
 
 interface FillBlankProps {
   exercise: Exercise;
@@ -17,13 +19,33 @@ export const FillBlankExercise: React.FC<FillBlankProps> = ({
   disabled = false,
 }) => {
   // Split question text on placeholder like ___ or _____
-  const parts = (exercise.question_text || '').split(/_{2,}/);
+  const rawText = exercise.question_text || exercise.prompt || '';
+  const parts = rawText.split(/_{2,}/);
+
+  const handleSpeak = () => {
+    const fullSentence = parts.join(selectedOption || '...');
+    playAudio(fullSentence);
+  };
 
   return (
     <div className="flex flex-col items-center w-full max-w-xl mx-auto my-auto py-4">
-      <h1 className="text-2xl sm:text-3xl font-black text-gray-800 text-left w-full mb-8">
+      <h1 className="text-2xl sm:text-3xl font-black text-gray-800 text-left w-full mb-6">
         {exercise.prompt || 'Fill in the blank'}
       </h1>
+
+      {/* Target prompt audio card */}
+      <div
+        onClick={handleSpeak}
+        className="w-full flex items-center gap-3 p-3.5 bg-gray-50 border-2 border-[#E5E5E5] rounded-2xl mb-6 cursor-pointer hover:bg-sky-50 transition-colors group"
+      >
+        <div className="p-2.5 bg-[#1CB0F6] text-white rounded-xl shadow-[0_3px_0_#1899D6] group-hover:scale-105 transition-transform">
+          <Volume2 className="w-5 h-5" />
+        </div>
+        <span className="text-base font-bold text-gray-700">
+          Listen to Sentence
+        </span>
+        <span className="text-xs font-bold text-gray-400 ml-auto hidden sm:inline">Tap to listen</span>
+      </div>
 
       {/* Sentence with blank slot */}
       <div className="w-full flex items-center justify-center gap-3 p-6 bg-gray-50 border-2 border-[#E5E5E5] rounded-2xl mb-10 text-2xl font-black text-gray-800">

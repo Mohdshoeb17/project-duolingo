@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Check, Star, Lock } from 'lucide-react';
+import { Check, Star, Lock, Volume2 } from 'lucide-react';
 import { LessonSummary } from '@/types';
+import { playAudio } from '@/lib/audio';
 
 interface LessonNodeProps {
   lesson: LessonSummary;
@@ -33,10 +34,22 @@ export const LessonNode: React.FC<LessonNodeProps> = ({ lesson, offset }) => {
       className="relative flex flex-col items-center group my-5 transition-transform"
       style={{ transform: `translateX(${offset}px)` }}
     >
-      {/* Current Lesson START Speech Bubble */}
+      {/* Current Lesson START Speech Bubble with Audio */}
       {isCurrent && (
-        <div className="absolute -top-11 z-20 bg-white border-2 border-[#E5E5E5] px-3 py-1 rounded-xl shadow-md text-xs font-black uppercase tracking-wider text-[#58CC02] flex items-center gap-1 animate-pulse">
+        <div className="absolute -top-11 z-20 bg-white border-2 border-[#E5E5E5] px-2.5 py-1 rounded-xl shadow-md text-xs font-black uppercase tracking-wider text-[#58CC02] flex items-center gap-1.5 animate-pulse">
           <span>START</span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              playAudio(lesson.title);
+            }}
+            title="Listen to lesson title pronunciation"
+            className="p-0.5 hover:bg-[#E5F9D3] rounded-md text-[#58CC02] transition-colors"
+          >
+            <Volume2 className="w-3.5 h-3.5" />
+          </button>
           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white" />
         </div>
       )}
@@ -50,7 +63,7 @@ export const LessonNode: React.FC<LessonNodeProps> = ({ lesson, offset }) => {
 
       {/* Tooltip on hover */}
       <div className="absolute top-full mt-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-30 bg-[#4B4B4B] text-white text-xs font-bold py-1.5 px-3 rounded-xl whitespace-nowrap shadow-lg">
-        {lesson.title} • {lesson.total_xp} XP {isCompleted && '✓ Completed'} {isLocked && '🔒 Locked'}
+        {lesson.title} • {lesson.total_xp || (lesson as any).xp_reward || 15} XP {isCompleted && '✓ Completed'} {isLocked && '🔒 Locked'}
       </div>
     </div>
   );

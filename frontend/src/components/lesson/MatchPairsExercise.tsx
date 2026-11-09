@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Volume2 } from 'lucide-react';
 import { Exercise } from '@/types';
+import { playAudio } from '@/lib/audio';
 
 interface MatchPairsProps {
   exercise: Exercise;
@@ -41,6 +43,7 @@ export const MatchPairsExercise: React.FC<MatchPairsProps> = ({
 
   // Handle checking match
   const checkMatch = (left: string, right: string) => {
+    playAudio(left);
     if (pairs[left] === right) {
       // Correct Match
       const nextMatched = new Set(matchedPairs);
@@ -65,6 +68,7 @@ export const MatchPairsExercise: React.FC<MatchPairsProps> = ({
 
   const handleLeftClick = (item: string) => {
     if (disabled || matchedPairs.has(item)) return;
+    playAudio(item);
     if (selectedRight) {
       checkMatch(item, selectedRight);
     } else {
@@ -80,6 +84,7 @@ export const MatchPairsExercise: React.FC<MatchPairsProps> = ({
     );
     if (isMatched) return;
 
+    playAudio(item);
     if (selectedLeft) {
       checkMatch(selectedLeft, item);
     } else {
