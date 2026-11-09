@@ -35,7 +35,7 @@ export default function ProfilePage() {
 
   if (loading || !profileData) {
     return (
-      <div className="md:ml-64 min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#58CC02] border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -50,7 +50,7 @@ export default function ProfilePage() {
   const achievements = profileData.achievements || [];
 
   return (
-    <div className="md:ml-64 min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       <TopStatsBar stats={stats} />
 
       <div className="max-w-4xl mx-auto px-6 py-10">

@@ -60,14 +60,14 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="md:ml-64 min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#58CC02] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="md:ml-64 min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* Top statistics header bar with Language Dropdown */}
       <TopStatsBar
         stats={stats}

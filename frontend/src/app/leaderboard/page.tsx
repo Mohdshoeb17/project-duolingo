@@ -27,7 +27,7 @@ export default function LeaderboardPage() {
   }, []);
 
   return (
-    <div className="md:ml-64 min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       <TopStatsBar stats={stats} />
 
       <div className="max-w-2xl mx-auto px-6 py-10">
