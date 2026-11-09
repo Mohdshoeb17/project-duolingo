@@ -1,16 +1,22 @@
 /**
  * Clear & Loud client-side text-to-speech audio helper
- * Speaks the exact question / sentence clearly at maximum volume and natural pitch.
+ * Checks sound_enabled preference before speaking.
  */
 export function playAudio(rawText: string) {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
     return;
   }
 
+  // Check if sound effects/audio are disabled in settings
+  const soundPref = localStorage.getItem('sound_effects');
+  if (soundPref === 'false') {
+    return; // User disabled audio in settings
+  }
+
   // Ensure speech synthesis is active and cancel any previous queued utterances
   window.speechSynthesis.cancel();
 
-  // Clean the text to speak - speak the sentence clearly
+  // Clean the text to speak
   let textToSpeak = rawText.trim();
 
   // If text is wrapped in quotes, prefer speaking the quoted target phrase
@@ -18,7 +24,6 @@ export function playAudio(rawText: string) {
   if (quoteMatch && quoteMatch[1] && quoteMatch[1].length > 1) {
     textToSpeak = quoteMatch[1].trim();
   } else {
-    // If it starts with "Translate: ", speak what follows
     textToSpeak = textToSpeak.replace(/^(Translate:\s*)/i, '').trim();
   }
 
@@ -43,14 +48,12 @@ export function playAudio(rawText: string) {
   try {
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.lang = lang;
-    utterance.volume = 1.0; // Maximum volume (loud & crisp)
-    utterance.rate = 0.92;   // Natural, highly intelligible learning speed
-    utterance.pitch = 1.05;  // Energetic, friendly Duolingo tone
+    utterance.volume = 1.0;
+    utterance.rate = 0.92;
+    utterance.pitch = 1.05;
 
-    // Try finding the best available system voice for the language
     const voices = window.speechSynthesis.getVoices();
     if (voices && voices.length > 0) {
-      // Prioritize natural / Google / enhanced voice if present
       const preferredVoice = voices.find(
         (v) =>
           v.lang.toLowerCase().replace('_', '-').startsWith(lang.toLowerCase().slice(0, 2)) &&

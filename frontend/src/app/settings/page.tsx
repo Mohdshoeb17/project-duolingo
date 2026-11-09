@@ -11,6 +11,33 @@ export default function SettingsPage() {
   const [animations, setAnimations] = useState(true);
   const [motivationReminders, setMotivationReminders] = useState(true);
 
+  useEffect(() => {
+    const savedSound = localStorage.getItem('sound_effects');
+    if (savedSound !== null) {
+      setSoundEffects(savedSound === 'true');
+    }
+    const savedAnim = localStorage.getItem('celebration_anim');
+    if (savedAnim !== null) {
+      setAnimations(savedAnim === 'true');
+    }
+  }, []);
+
+  const handleToggleSound = () => {
+    setSoundEffects((prev) => {
+      const next = !prev;
+      localStorage.setItem('sound_effects', String(next));
+      return next;
+    });
+  };
+
+  const handleToggleAnim = () => {
+    setAnimations((prev) => {
+      const next = !prev;
+      localStorage.setItem('celebration_anim', String(next));
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#131F24] text-gray-900 dark:text-gray-100 transition-colors">
       <TopStatsBar />
@@ -24,7 +51,7 @@ export default function SettingsPage() {
         </p>
 
         <div className="flex flex-col gap-5">
-          {/* Dark Mode toggle (Assessment Bonus) */}
+          {/* Dark Mode toggle */}
           <div className="p-5 rounded-2xl border-2 border-[#E5E5E5] dark:border-gray-800 bg-white dark:bg-[#1A282D] flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-950 text-[#CE82FF]">
@@ -61,13 +88,13 @@ export default function SettingsPage() {
               <div>
                 <h3 className="font-black text-base">Sound & Audio Pronunciation</h3>
                 <p className="text-xs font-bold text-gray-400 dark:text-gray-500">
-                  Play natural voice pronunciation for lesson questions
+                  {soundEffects ? 'Sound is enabled across all lessons' : 'Sound is disabled across all lessons'}
                 </p>
               </div>
             </div>
 
             <button
-              onClick={() => setSoundEffects(!soundEffects)}
+              onClick={handleToggleSound}
               className={`w-14 h-8 rounded-full transition-colors relative p-1 ${
                 soundEffects ? 'bg-[#58CC02]' : 'bg-gray-300'
               }`}
@@ -97,7 +124,7 @@ export default function SettingsPage() {
             </div>
 
             <button
-              onClick={() => setAnimations(!animations)}
+              onClick={handleToggleAnim}
               className={`w-14 h-8 rounded-full transition-colors relative p-1 ${
                 animations ? 'bg-[#58CC02]' : 'bg-gray-300'
               }`}
