@@ -12,8 +12,7 @@ import {
   User,
   Settings,
   Sparkles,
-  X,
-  Menu
+  X
 } from 'lucide-react';
 import { useSidebar } from '@/context/SidebarContext';
 
@@ -29,7 +28,7 @@ const navItems = [
 
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
-  const { isOpen, closeSidebar, openSidebar } = useSidebar();
+  const { isOpen, closeSidebar } = useSidebar();
 
   // If in a lesson screen, hide the main sidebar for full immersive mode
   if (pathname.startsWith('/lesson/')) {
@@ -38,21 +37,18 @@ export const Sidebar: React.FC = () => {
 
   return (
     <>
-      {/* Floating Toggle Button when Sidebar is closed */}
-      {!isOpen && (
-        <button
-          onClick={openSidebar}
-          title="Open Menu"
-          className="fixed left-4 top-4 z-50 p-2.5 bg-white border-2 border-[#E5E5E5] rounded-2xl shadow-md hover:bg-gray-50 active:translate-y-0.5 transition-all text-[#58CC02]"
-        >
-          <Menu className="w-6 h-6 stroke-[2.5]" />
-        </button>
+      {/* Backdrop overlay on smaller screens when sidebar is open */}
+      {isOpen && (
+        <div
+          onClick={closeSidebar}
+          className="fixed inset-0 bg-black/20 z-30 md:hidden backdrop-blur-xs"
+        />
       )}
 
       {/* Main Sidebar with Close (X) button */}
       <aside
         className={`w-64 fixed left-0 top-0 bottom-0 border-r-2 border-[#E5E5E5] bg-white flex flex-col justify-between p-4 z-40 select-none transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? 'translate-x-0 shadow-lg md:shadow-none' : '-translate-x-full'
         }`}
       >
         <div>
