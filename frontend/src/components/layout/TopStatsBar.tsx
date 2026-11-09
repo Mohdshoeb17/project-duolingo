@@ -7,12 +7,25 @@ import { Flame, Zap, Heart, Gem, ChevronDown, Check, Menu } from 'lucide-react';
 import { UserStats } from '@/types';
 import { useSidebar } from '@/context/SidebarContext';
 
-interface CourseOption {
+export interface CourseOption {
   id: number;
   title: string;
   target_language: string;
   flag: string;
 }
+
+export const ALL_DEFAULT_COURSES: CourseOption[] = [
+  { id: 1, title: 'Spanish for English Speakers', target_language: 'Spanish', flag: '🇪🇸' },
+  { id: 2, title: 'French for English Speakers', target_language: 'French', flag: '🇫🇷' },
+  { id: 3, title: 'German for English Speakers', target_language: 'German', flag: '🇩🇪' },
+  { id: 4, title: 'Japanese for English Speakers', target_language: 'Japanese', flag: '🇯🇵' },
+  { id: 10, title: 'Hindi for English Speakers', target_language: 'Hindi', flag: '🇮🇳' },
+  { id: 11, title: 'Tamil for English Speakers', target_language: 'Tamil', flag: '🇮🇳' },
+  { id: 12, title: 'Telugu for English Speakers', target_language: 'Telugu', flag: '🇮🇳' },
+  { id: 13, title: 'Kannada for English Speakers', target_language: 'Kannada', flag: '🇮🇳' },
+  { id: 14, title: 'Malayalam for English Speakers', target_language: 'Malayalam', flag: '🇮🇳' },
+  { id: 15, title: 'English for Hindi Speakers', target_language: 'English', flag: '🇬🇧' },
+];
 
 interface TopStatsBarProps {
   stats?: UserStats | null;
@@ -25,12 +38,7 @@ interface TopStatsBarProps {
 export const TopStatsBar: React.FC<TopStatsBarProps> = ({
   stats,
   onRefillClick,
-  courses = [
-    { id: 1, title: 'Spanish for English Speakers', target_language: 'Spanish', flag: '🇪🇸' },
-    { id: 2, title: 'French for English Speakers', target_language: 'French', flag: '🇫🇷' },
-    { id: 3, title: 'German for English Speakers', target_language: 'German', flag: '🇩🇪' },
-    { id: 4, title: 'Japanese for English Speakers', target_language: 'Japanese', flag: '🇯🇵' },
-  ],
+  courses = ALL_DEFAULT_COURSES,
   currentCourseId = 1,
   onSelectCourse,
 }) => {
@@ -44,12 +52,20 @@ export const TopStatsBar: React.FC<TopStatsBarProps> = ({
     return null;
   }
 
+  // Ensure all 10 courses are present even if backend API returns a subset
+  const mergedCourses = [...(courses && courses.length > 0 ? courses : ALL_DEFAULT_COURSES)];
+  for (const def of ALL_DEFAULT_COURSES) {
+    if (!mergedCourses.some((c) => c.id === def.id || c.target_language.toLowerCase() === def.target_language.toLowerCase())) {
+      mergedCourses.push(def);
+    }
+  }
+
   const streak = stats?.current_streak ?? 0;
   const totalXp = stats?.total_xp ?? 0;
   const hearts = stats?.hearts ?? 5;
   const gems = stats?.gems ?? 100;
 
-  const currentCourse = courses.find((c) => c.id === currentCourseId) || courses[0];
+  const currentCourse = mergedCourses.find((c) => c.id === currentCourseId) || mergedCourses[0];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -92,33 +108,38 @@ export const TopStatsBar: React.FC<TopStatsBarProps> = ({
           </button>
 
           {dropdownOpen && (
-            <div className="absolute left-0 top-full mt-2 w-56 bg-white border-2 border-[#E5E5E5] rounded-2xl shadow-xl p-2 z-50 flex flex-col gap-1 animate-fade-in">
-              <div className="text-[11px] font-black uppercase text-gray-400 px-3 py-1 tracking-wider">
-                Choose Language
+            <div className="absolute left-0 top-full mt-2 w-64 max-h-80 overflow-y-auto bg-white border-2 border-[#E5E5E5] rounded-2xl shadow-xl p-2 z-50 flex flex-col gap-1 animate-fade-in divide-y divide-gray-100">
+              <div className="text-[11px] font-black uppercase text-gray-400 px-3 py-1 tracking-wider sticky top-0 bg-white/95 backdrop-blur-sm z-10">
+                Choose Language ({mergedCourses.length})
               </div>
-              {courses.map((course) => {
-                const isSelected = course.id === currentCourseId;
-                return (
-                  <button
-                    key={course.id}
-                    onClick={() => {
-                      if (onSelectCourse) onSelectCourse(course.id);
-                      setDropdownOpen(false);
-                    }}
-                    className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-bold transition-all text-left ${
-                      isSelected
-                        ? 'bg-[#E5F9D3] text-[#58CC02] border border-[#58CC02]/30'
-                        : 'hover:bg-gray-100 text-gray-700'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-xl">{course.flag}</span>
-                      <span>{course.target_language}</span>
-                    </div>
-                    {isSelected && <Check className="w-4 h-4 stroke-[3]" />}
-                  </button>
-                );
-              })}
+              <div className="pt-1 flex flex-col gap-1">
+                {mergedCourses.map((course) => {
+                  const isSelected = course.id === currentCourseId;
+                  return (
+                    <button
+                      key={course.id}
+                      onClick={() => {
+                        if (onSelectCourse) onSelectCourse(course.id);
+                        setDropdownOpen(false);
+                      }}
+                      className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-bold transition-all text-left ${
+                        isSelected
+                          ? 'bg-[#E5F9D3] text-[#58CC02] border border-[#58CC02]/30'
+                          : 'hover:bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-xl">{course.flag}</span>
+                        <div>
+                          <div className="text-sm leading-tight">{course.target_language}</div>
+                          <div className="text-[11px] font-normal text-gray-400 leading-none">{course.title.split(' for ')[0]}</div>
+                        </div>
+                      </div>
+                      {isSelected && <Check className="w-4 h-4 stroke-[3]" />}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

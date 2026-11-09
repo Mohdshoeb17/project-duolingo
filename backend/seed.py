@@ -841,6 +841,16 @@ def seed():
         db.commit()
         print("Database seeded successfully with all 30 lessons, 150+ exercises, gamification stats, and users!")
 
+        # Seed French, German, Japanese, and Indian Languages (Hindi, Tamil, Telugu, Kannada, Malayalam, English)
+        try:
+            import add_languages
+            add_languages.run()
+            import add_indian_languages
+            add_indian_languages.run()
+            print("All 10 multi-language courses seeded successfully!")
+        except Exception as lang_err:
+            print(f"Error seeding extended languages: {lang_err}")
+
     except Exception as e:
         db.rollback()
         print(f"Error seeding database: {e}")

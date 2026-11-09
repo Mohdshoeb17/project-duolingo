@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '@/services/api';
 import { CoursePath, UserStats, LeaderboardUser } from '@/types';
-import { TopStatsBar } from '@/components/layout/TopStatsBar';
+import { TopStatsBar, ALL_DEFAULT_COURSES } from '@/components/layout/TopStatsBar';
 import { LearningPath } from '@/components/learning-path/LearningPath';
 import { GamificationWidgets } from '@/components/gamification/GamificationWidgets';
 
 export default function HomePage() {
-  const [courses, setCourses] = useState<any[]>([]);
+  const [courses, setCourses] = useState<any[]>(ALL_DEFAULT_COURSES);
   const [selectedCourseId, setSelectedCourseId] = useState(1);
   const [coursePath, setCoursePath] = useState<CoursePath | null>(null);
   const [stats, setStats] = useState<UserStats | null>(null);
@@ -21,18 +21,20 @@ export default function HomePage() {
         api.getCoursePath(courseId),
         api.getUserStats(),
         api.getLeaderboard(),
-        api.getCourses().catch(() => [
-          { id: 1, title: 'Spanish for English Speakers', target_language: 'Spanish', flag: '🇪🇸' },
-          { id: 2, title: 'French for English Speakers', target_language: 'French', flag: '🇫🇷' },
-          { id: 3, title: 'German for English Speakers', target_language: 'German', flag: '🇩🇪' },
-          { id: 4, title: 'Japanese for English Speakers', target_language: 'Japanese', flag: '🇯🇵' },
-        ]),
+        api.getCourses().catch(() => ALL_DEFAULT_COURSES),
       ]);
       setCoursePath(pathData);
       setStats(statsData);
       setLeaderboard(lbData);
       if (courseList && courseList.length > 0) {
-        setCourses(courseList);
+        // Merge with ALL_DEFAULT_COURSES to guarantee all 10 languages
+        const merged = [...courseList];
+        for (const def of ALL_DEFAULT_COURSES) {
+          if (!merged.some((c: any) => c.id === def.id || c.target_language.toLowerCase() === def.target_language.toLowerCase())) {
+            merged.push(def);
+          }
+        }
+        setCourses(merged);
       }
     } catch (err) {
       console.error('Failed to load home page data:', err);
