@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import './globals.css';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { SidebarProvider } from '@/context/SidebarContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { MainContainer } from '@/components/layout/MainContainer';
 
 export const metadata: Metadata = {
@@ -17,13 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased bg-[#FFFFFF] text-gray-900 selection:bg-[#58CC02] selection:text-white">
-        <SidebarProvider>
-          <Suspense fallback={null}>
-            <Sidebar />
-            <MainContainer>{children}</MainContainer>
-          </Suspense>
-        </SidebarProvider>
+      <body className="font-sans antialiased bg-[#FFFFFF] dark:bg-[#131F24] text-gray-900 dark:text-gray-100 selection:bg-[#58CC02] selection:text-white transition-colors">
+        <ThemeProvider>
+          <SidebarProvider>
+            <Suspense fallback={null}>
+              <Sidebar />
+              <MainContainer>{children}</MainContainer>
+            </Suspense>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
