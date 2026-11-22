@@ -52,22 +52,16 @@ def get_course_path(course_id: int, db: Session = Depends(get_db)):
                 is_completed = lesson.id in completed_lesson_ids
                 accuracy = completed_lesson_ids.get(lesson.id)
                 
-                # Spanish course (course_id == 1): Allow all 30 lessons to be unlocked for testing
-                if course_id == 1:
+                if is_completed:
                     is_locked = False
-                    if is_completed:
-                        skill_completed_count += 1
+                    skill_completed_count += 1
+                elif not has_found_current_unlocked:
+                    # The very first uncompleted lesson in the course is unlocked and active!
+                    is_locked = False
+                    has_found_current_unlocked = True
                 else:
-                    if is_completed:
-                        is_locked = False
-                        skill_completed_count += 1
-                    elif not has_found_current_unlocked:
-                        # The very first uncompleted lesson is unlocked and active!
-                        is_locked = False
-                        has_found_current_unlocked = True
-                    else:
-                        # All lessons after the active one remain locked
-                        is_locked = True
+                    # All subsequent uncompleted lessons remain locked
+                    is_locked = True
 
                 lessons_data.append(LessonSummary(
                     id=lesson.id,

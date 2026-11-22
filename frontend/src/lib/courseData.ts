@@ -44,7 +44,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -64,7 +64,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 4,
@@ -74,7 +74,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -94,7 +94,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 6,
@@ -104,7 +104,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -124,7 +124,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 8,
@@ -134,7 +134,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -154,7 +154,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 10,
@@ -164,7 +164,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   }
@@ -195,7 +195,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 12,
@@ -205,7 +205,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -225,7 +225,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 14,
@@ -235,7 +235,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -255,7 +255,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 16,
@@ -265,7 +265,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -285,7 +285,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 18,
@@ -295,7 +295,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -315,7 +315,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 20,
@@ -325,7 +325,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   }
@@ -356,7 +356,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 22,
@@ -366,7 +366,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -386,7 +386,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 24,
@@ -396,7 +396,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -416,7 +416,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 26,
@@ -426,7 +426,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -446,7 +446,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 28,
@@ -456,7 +456,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   },
@@ -476,7 +476,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               },
                               {
                                     "id": 30,
@@ -486,7 +486,7 @@ export const FALLBACK_COURSES_DATA: Record<number, CoursePath> = {
                                     "total_xp": 15,
                                     "xp_reward": 15,
                                     "completed": false,
-                                    "locked": false
+                                    "locked": true
                               }
                         ]
                   }

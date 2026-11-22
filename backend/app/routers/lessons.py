@@ -284,24 +284,20 @@ def get_lesson_details(
     #         status_code=403,
     #         detail="Lesson is currently locked. Complete prior lessons first."
     #     )
+    # Check sequential unlock rules:
+    # 1. Any lesson already completed by the user is unlocked.
+    # 2. The first uncompleted lesson in sequential course order is unlocked.
+    # 3. All subsequent uncompleted lessons remain locked.
     is_unlocked = False
 
-    # Spanish course: allow all lessons during testing
-    if course_id == 1:
+    if lesson_id in completed_ids:
         is_unlocked = True
-
     else:
         for current_lesson in course_lessons:
-            if current_lesson.id in completed_ids:
+            if current_lesson.id not in completed_ids:
                 if current_lesson.id == lesson_id:
                     is_unlocked = True
-                    break
-                continue
-
-            if current_lesson.id == lesson_id:
-                is_unlocked = True
-
-            break
+                break
 
     if not is_unlocked:
         raise HTTPException(
