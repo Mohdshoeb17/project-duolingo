@@ -41,7 +41,7 @@ def get_course_path(course_id: int, db: Session = Depends(get_db)):
     units_data = []
     # Determine lesson unlock status linearly through the curriculum
     has_found_current_unlocked = False
-
+                                               
     for unit in units:
         skills_data = []
         for skill in unit.skills:
@@ -52,16 +52,22 @@ def get_course_path(course_id: int, db: Session = Depends(get_db)):
                 is_completed = lesson.id in completed_lesson_ids
                 accuracy = completed_lesson_ids.get(lesson.id)
                 
-                if is_completed:
+                # Spanish course (course_id == 1): Allow all 30 lessons to be unlocked for testing
+                if course_id == 1:
                     is_locked = False
-                    skill_completed_count += 1
-                elif not has_found_current_unlocked:
-                    # The very first uncompleted lesson is unlocked and active!
-                    is_locked = False
-                    has_found_current_unlocked = True
+                    if is_completed:
+                        skill_completed_count += 1
                 else:
-                    # All lessons after the active one remain locked
-                    is_locked = True
+                    if is_completed:
+                        is_locked = False
+                        skill_completed_count += 1
+                    elif not has_found_current_unlocked:
+                        # The very first uncompleted lesson is unlocked and active!
+                        is_locked = False
+                        has_found_current_unlocked = True
+                    else:
+                        # All lessons after the active one remain locked
+                        is_locked = True
 
                 lessons_data.append(LessonSummary(
                     id=lesson.id,
